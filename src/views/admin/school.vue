@@ -1,15 +1,19 @@
 <template>
     <div>
-        <el-table :data="departments" style="width: 100%" :row-class-name="tableRowClassName">
+        <el-table :data="schools" style="width: 100%" :row-class-name="tableRowClassName">
             <el-table-column fixed prop="id" label="id" width="80" :sortable="true" :sort-method="sortById" />
-            <el-table-column prop="schoolId" label="学校id" width="130" />
-            <el-table-column prop="departType" label="学院|处室" width="130" />
-            <el-table-column prop="departName" label="部门名称" width="160" />
-            <el-table-column prop="departCode" label="部门英文名称" width="250" />
-            <el-table-column prop="departDesc" label="部门描述" width="200" />
-            <el-table-column prop="updateTime" label="更新时间" width="200" />
-            <el-table-column prop="createTime" label="创建时间" width="200" />
+            <el-table-column prop="schoolName" label="学校名称" width="130" />
+            <el-table-column prop="description" label="学校说明" width="130" />
+            <el-table-column prop="longitude" label="经度" width="130" />
+            <el-table-column prop="latitude" label="纬度" width="130" />
+            <el-table-column prop="enable" label="是否启用" width="60" />
             <el-table-column prop="deleted" label="删除" width="60" />
+            <el-table-column prop="updateTime" label="更新时间" width="130" />
+            <el-table-column prop="createTime" label="创建时间" width="130" />
+            <el-table-column prop="province" label="省" width="130" />
+            <el-table-column prop="area" label="市|县" width="130" />
+            <el-table-column prop="city" label="城市" width="130" />
+            <el-table-column prop="address" label="地址" width="130" />
             <el-table-column fixed="right" label="操作" width="200">
                 <template #default="scope">
                     <el-button type="info" size="small" @click="toEdit(scope.row)">更新</el-button>
@@ -19,22 +23,31 @@
         </el-table>
     </div>
     <el-button type="info" @click="toAdd" round>添加</el-button>
-    <el-dialog v-model="dialogFormVisible" title="学院编辑">
-        <el-form :model="department">
-            <el-form-item label="学校ID" :label-width="140">
-                <el-input v-model="department.schoolId" autocomplete="off" />
+    <el-dialog v-model="dialogFormVisible" title="学校信息编辑">
+        <el-form :model="school">
+            <el-form-item label="学校名称" :label-width="140">
+                <el-input v-model="school.schoolName" autocomplete="off" />
             </el-form-item>
-            <el-form-item label="学院|处室" :label-width="140">
-                <el-input v-model="department.departType" autocomplete="off" />
+            <el-form-item label="学校说明" :label-width="140">
+                <el-input v-model="school.description" autocomplete="off" />
             </el-form-item>
-            <el-form-item label="部门名称" :label-width="140">
-                <el-input v-model="department.departName" autocomplete="off" />
+            <el-form-item label="经度" :label-width="140">
+                <el-input v-model="school.longitude" autocomplete="off" />
             </el-form-item>
-            <el-form-item label="部门英文名称" :label-width="140">
-                <el-input v-model="department.departCode" autocomplete="off" />
+            <el-form-item label="纬度" :label-width="140">
+                <el-input v-model="school.latitude" autocomplete="off" />
             </el-form-item>
-            <el-form-item label="部门描述" :label-width="140">
-                <el-input v-model="department.departDesc" autocomplete="off" />
+            <el-form-item label="省" :label-width="140">
+                <el-input v-model="school.province" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="市|县" :label-width="140">
+                <el-input v-model="school.area" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="城市" :label-width="140">
+                <el-input v-model="school.city" autocomplete="off" />
+            </el-form-item>
+            <el-form-item label="地址" :label-width="140">
+                <el-input v-model="school.address" autocomplete="off" />
             </el-form-item>
         </el-form>
         <template #footer>
@@ -49,60 +62,64 @@
 </template>
 <script>
 import { defineComponent } from 'vue'
-import { departmentPage, departmentDelId, departmentAdd, departmentEdit } from "../../http/department"
+import { schoolPage, schoolDelId, schoolAdd, schoolEdit } from "../../http/school"
 import { ElMessage } from 'element-plus';
 import { cloneDeep } from 'lodash-es'
 export default defineComponent({
     data() {
         return {
-            departments: [],
+            schools: [],
             page: {
                 total: 0,
                 current: 1,
-                size: 5
+                size: 1
             },
             dialogFormVisible: false,
             dialogFormVisible1: false,
-            department: {
+            school: {
+                "address": "",
+                "area": "",
+                "city": "",
                 "createTime": "",
                 "deleted": 0,
-                "departCode": "",
-                "departDesc": "",
-                "departName": "",
-                "departType": "",
+                "description": "",
+                "enable": 0,
                 "id": 0,
-                "schoolId": 0,
+                "latitude": "",
+                "longitude": "",
+                "province": "",
+                "schoolName": "",
                 "updateTime": ""
             },
             formLabelWidth: 80,
         }
     },
     mounted() {
-        this.getDepartmentsPage(1)
+        this.getSchoolsPage(1)
     },
     methods: {
-        toEdit(department) {
-            console.log(department)
+        toEdit(school) {
+            console.log(school)
             this.dialogFormVisible = true
-            this.department = cloneDeep(department);
+            this.school = cloneDeep(school);
 
         },
-        getDepartmentsPage(current) {
+        getSchoolsPage(current) {
             const data = {
                 current: current,
-                size: 5
+                size: 2,
             }
-            departmentPage(data).then(res => {
+            schoolPage(data).then(res => {
                 console.log(res);
-                const page = res.data.departments;
-                this.departments = page;
+                const page = res.data.schools;
+                this.schools = page;
                 this.page = page;
             }).catch(err => {
                 console.log(err)
             })
         },
         currentchange(current) {
-            this.getDepartmentsPage(current);
+            this.getSchoolsPage(current);
             this.page.current = current;
         },
         cancle() {
@@ -112,10 +129,10 @@ export default defineComponent({
             const params = {
                 id: id
             }
-            departmentDelId(params).then(res => {
+            schoolDelId(params).then(res => {
                 console.log(id)
                 if (res.success) {
-                    this.getDepartmentsPage(this.page.current)
+                    this.getSchoolsPage(this.page.current)
                 }
                 else {
                     console.log(res.msg)
@@ -131,13 +148,13 @@ export default defineComponent({
             this.dialogFormVisible = true
         },
         save() {
-            const department = this.department;
-            if (department.id == 0) {
-                departmentAdd(department).then(res => {
+            const school = this.school;
+            if (school.id == 0) {
+                schoolAdd(school).then(res => {
                     if (res.success) {
                         //刷新页面
                         this.dialogFormVisible = false
-                        this.getDepartmentsPage(this.page.current)
+                        this.getSchoolsPage(this.page.current)
                         ElMessage(res.msg)
                     }
                     else {
@@ -149,11 +166,11 @@ export default defineComponent({
                 })
             }
             else {
-                departmentEdit(department).then(res => {
+                schoolEdit(school).then(res => {
                     if (res.success) {
                         //刷新页面
                         this.dialogFormVisible = false
-                        this.getDepartmentsPage(this.page.current)
+                        this.getSchoolsPage(this.page.current)
                         ElMessage(res.msg)
                     }
                     else {

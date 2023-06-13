@@ -16,37 +16,16 @@ const adminLogin=(data)=>{
         data
     })
 }
-const departmentPage=(params)=>{
+const registerforclubsAdd=(data)=>{
     return instance.request({
-        url:'/api/department/all',
-        params
-    })
-}
-const departmentDelId=(params)=>{
-    return instance.request({
-        url:'/api/department/delete',
-        params
-    })
-}
-const departmentAdd=(data)=>{
-    return instance.request({
-        url:'/api/department/add',
+        url:'/api/community/add',
         method:'post',
         data
     })
 }
-const departmentEdit=(data)=>{
-    return instance.request({
-        url:'/api/department/edit',
-        method:'post',
-        data
-    })
-}
+
 export {
     userLogin,
     adminLogin,
-    departmentPage,
-    departmentDelId,
-    departmentAdd,
-    departmentEdit
+    registerforclubsAdd,
 } //多个输出

@@ -4,9 +4,12 @@
     </div>
     <div class="login">
         <div class="login-form">
-            <div class="login-form-logo">
-                <el-image :src="src" fit="fill" :lazy="true"></el-image>
+            <div style="text-align: center;margin: 40px 0px;">
+                <h1>社长登录</h1>
             </div>
+            <!-- <div class="login-form-logo">
+                <el-image :src="src" fit="fill" :lazy="true"></el-image>
+            </div> -->
 
             <el-form ref="ruleFormRef" :model="userForm" status-icon :rules="rules" class="login-ruleForm">
                 <el-form-item prop="email">
@@ -79,15 +82,12 @@ export default defineComponent({
                             console.log(that);
                             that.setToken(userinfo.token);
                             that.fillUserinfo(userinfo);
-                            that.$router.push('/admin');
+                            that.$router.push('/president');
                         }
                         else {
 
                             return false;
                         }
-
-
-
                     }).catch(err => {
                         console.log(err)
                     })

@@ -16,23 +16,28 @@ const adminLogin=(data)=>{
         data
     })
 }
-const copyrightPage=(data)=>{
+const communityPage=(params)=>{
     return instance.request({
-        url:'api/copyright/page',
+        url:'/api/community/all',
+        params
+    })
+}
+const communityDelId=(params)=>{
+    return instance.request({
+        url:'/api/community/delete',
+        params
+    })
+}
+const communityAdd=(data)=>{
+    return instance.request({
+        url:'/api/community/add',
         method:'post',
         data
     })
 }
-const copyrightAdd=(data)=>{
+const communityEdit=(data)=>{
     return instance.request({
-        url:'api/copyright/add',
-        method:'post',
-        data
-    })
-}
-const copyrightEdit=(data)=>{
-    return instance.request({
-        url:'api/copyright/edit',
+        url:'/api/community/edit',
         method:'post',
         data
     })
@@ -40,7 +45,8 @@ const copyrightEdit=(data)=>{
 export {
     userLogin,
     adminLogin,
-    copyrightPage,
-    copyrightAdd,
-    copyrightEdit
+    communityPage,
+    communityDelId,
+    communityAdd,
+    communityEdit
 } //多个输出

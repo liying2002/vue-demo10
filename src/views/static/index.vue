@@ -1,96 +1,21 @@
 <template>
-   <div>home</div>
+    <div style="margin: 50px 50px;">
+        <h1>社团管理系统</h1>
+        <el-button type="info" @click="toPresident" round>社长登录</el-button>
+        <el-button type="info" @click="toAdmin" round>管理员登录</el-button>
+    </div>
 </template>
 <script>
-import { storeToRefs } from "pinia";
-import { defineComponent } from "vue"
-import { useUserStore } from '../../store/user'
+import { defineComponent } from 'vue'
 export default defineComponent({
-    setup() {
-
-        //组合api
-        const store = useUserStore();
-        const { count } = storeToRefs(store);
-        console.log(count)
-        return {
-            count,
-
-        }
-    },
-    data() {
-        return {
-            msg: 'this is vue app',
-            msgHtml: '<h3>this is v-html 指令</h3>',
-            home: 'home',
-            ok: true,
-            number1: 1,//数量增加
-            data: [],
-            obj: {
-                name: 'rose',
-                children: {
-                    name: '22'
-                }
-            },
-            product: {
-                name: 'mac book',
-                price: 99,
-                count: 10,
-                total: 0
-            }
-        }
-    },
-    computed: {
-        //商品的价格计算
-        //简单数字计算
-        sum() {
-            this.product.total = this.product.price * this.product.count;
-            return this.product.total;
-        }
-
-
-    },
-    mounted() {
-        // this.increate();
-        // this.sum();
-
-    },
     methods: {
-        componentEvent(data) {
-            console.log('组件自定义事件', data)
+        toPresident() {
+            this.$router.push({path:'/presidentLogin',params:{id:1}})
         },
-        componentEmitEvent(data) {
-            console.log('$emit组件自定义事件', data)
+        toAdmin() {
+            this.$router.push({path:'/login',params:{id:2}})
         },
-        btnTemple() {
-            let str = 'home';
-            let str1 = `this is vue string temple ${str}`//字符串模板写法
-            console.log(str1);
-        },
-        // increate() {
-        //     this.number1++
-        // },
-        btnDeep() {
-            this.obj.children.age = 23
-        },
-        // sum() {
-        //     this.product.total = this.product.price * this.product.count;
-        // }
-
-
-    },
-    components: {
-        //HelloWorld
     }
 });
-
 </script>
-
-<style lang="scss" scoped>
-.home {
-    background-color: $blue;
-}
-
-.index {
-    background-color: red;
-}
-</style>
+<style lang='scss' scoped></style>

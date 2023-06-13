@@ -1,10 +1,8 @@
 <template>
-    <div class="common-layout">
-        <el-container>
-            <Aside></Aside>
-            <Main></Main>
-        </el-container>
+    <div>
+        <Aside></Aside>
     </div>
+    <Main></Main>
 </template>
 <script>
 import Aside from '@/layout/admin/aside.vue'
