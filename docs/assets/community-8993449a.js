@@ -1,0 +1,1 @@
+import{aa as e}from"./index-6d93cdec.js";const u=t=>e.request({url:"/api/community/all",params:t}),o=t=>e.request({url:"/api/community/delete",params:t}),r=t=>e.request({url:"/api/community/add",method:"post",data:t}),n=t=>e.request({url:"/api/community/edit",method:"post",data:t});export{o as a,r as b,u as c,n as d};
